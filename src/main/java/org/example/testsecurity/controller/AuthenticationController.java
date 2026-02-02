@@ -26,7 +26,8 @@ public class AuthenticationController {
     @PostMapping("/register")
     @Operation(summary = "Ro'yxatdan o'tish", description = "Yangi foydalanuvchi ro'yxatdan o'tadi va JWT token oladi")
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        authenticationService.register(request);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
