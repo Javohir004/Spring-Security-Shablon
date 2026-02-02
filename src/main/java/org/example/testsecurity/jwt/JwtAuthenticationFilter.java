@@ -27,22 +27,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     // Ochiq endpoint'lar - bu endpoint'larda JWT tekshirilmaydi
-    private static final List<String> PUBLIC_URLS = Arrays.asList(
-            "/api/auth/register",
-            "/api/auth/login",
-            "/api/test/public",
-            "/swagger-ui",
-            "/v3/api-docs",
-            "/swagger-resources",
-            "/webjars"
-    );
+    private static final List<String> PUBLIC_URLS =
+            Arrays.asList("/api/auth/register", "/api/auth/login", "/api/test/public",
+                    "/swagger-ui", "/v3/api-docs", "/swagger-resources", "/webjars");
 
     @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         // Public endpoint'larni tekshirish
         String requestPath = request.getServletPath();
@@ -70,14 +61,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
