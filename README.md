@@ -1,7 +1,9 @@
 🔐 **Spring Security + JWT Authentication Template**
+
 Spring Boot loyihalarida autentifikatsiya va avtorizatsiya uchun tayyor shablon. JWT token asosida ishlaydi va professional error handling bilan ta'minlangan.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ✨ **XUSUSIYATLAR**
 
 ✅ Spring Boot 3.2.1 + Spring Security 6
@@ -13,6 +15,7 @@ Spring Boot loyihalarida autentifikatsiya va avtorizatsiya uchun tayyor shablon.
 ✅ BCrypt Password Encryption
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 🚨 **ERROR HANDLING**
 
 Barcha xatolar standart JSON formatida qaytadi:
@@ -35,6 +38,7 @@ Qo'llab-quvvatlanadigan xatolar:
 • 409 - Email allaqachon ro'yxatdan o'tgan
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 📚 **API ENDPOINTS**
 
 🔓 Public:
@@ -50,6 +54,7 @@ Qo'llab-quvvatlanadigan xatolar:
   → http://localhost:8080/swagger-ui.html
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 🛠️ **TEXNOLOGIYALAR**
 
 Backend:
@@ -73,3 +78,18 @@ Build Tool:
 
 Additional:
   • Lombok
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 **TEZKOR BOSHLASH**
+
+1️⃣ Database yarating:
+   CREATE DATABASE test;
+
+2️⃣ application.properties sozlang
+
+3️⃣ Ishga tushiring:
+   mvn spring-boot:run
+
+4️⃣ Swagger'ni oching va test qiling! ✨
+
