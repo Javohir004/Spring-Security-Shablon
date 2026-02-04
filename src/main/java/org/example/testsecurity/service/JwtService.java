@@ -1,4 +1,4 @@
-package org.example.testsecurity.jwt;
+package org.example.testsecurity.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
