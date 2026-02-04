@@ -3,7 +3,9 @@ package org.example.testsecurity.config;
 
 
 
-import org.example.testsecurity.jwt.JwtAuthenticationFilter;
+import org.example.testsecurity.security.JwtAccessDeniedHandler;
+import org.example.testsecurity.security.JwtAuthenticationEntryPoint;
+import org.example.testsecurity.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +26,8 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     // Ochiq endpoint'lar ro'yxati
     private static final String[] WHITE_LIST_URL = {
@@ -45,15 +49,19 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // Swagger va Authentication endpoint'larini ochiq qilish
+                        // Ochiq endpoint'lar - hech qanday autentifikatsiya kerak emas
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        // Admin endpoint'lari faqat ADMIN uchun
+                        // Admin endpoint'lari
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         // Qolgan barcha endpoint'lar autentifikatsiya talab qiladi
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

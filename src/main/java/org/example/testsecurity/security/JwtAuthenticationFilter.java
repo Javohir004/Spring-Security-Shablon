@@ -1,4 +1,4 @@
-package org.example.testsecurity.jwt;
+package org.example.testsecurity.security;
 
 
 import jakarta.servlet.FilterChain;
@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.example.testsecurity.service.JwtService;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,9 +28,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     // Ochiq endpoint'lar - bu endpoint'larda JWT tekshirilmaydi
-    private static final List<String> PUBLIC_URLS =
-            Arrays.asList("/api/auth/register", "/api/auth/login", "/api/test/public",
-                    "/swagger-ui", "/v3/api-docs", "/swagger-resources", "/webjars");
+    private static final List<String> PUBLIC_URLS = Arrays.asList(
+            "/api/auth/register",
+            "/api/auth/login",
+            "/api/test/public",
+            "/swagger-ui",
+            "/v3/api-docs",
+            "/swagger-resources",
+            "/webjars"
+    );
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -61,15 +68,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-        } catch (Exception e) {
-            // Token noto'g'ri yoki muddati o'tgan bo'lsa
-            // Exception'ni log qilish mumkin
-            System.err.println("JWT validation error: " + e.getMessage());
+        } catch (io.jsonwebtoken.ExpiredJwtException ex) {
+            // Token muddati tugagan
+            request.setAttribute("exception", ex);
+        } catch (io.jsonwebtoken.MalformedJwtException ex) {
+            // Token formati noto'g'ri
+            request.setAttribute("exception", ex);
+        } catch (io.jsonwebtoken.security.SignatureException ex) {
+            // Token imzosi noto'g'ri
+            request.setAttribute("exception", ex);
+        } catch (Exception ex) {
+            // Boshqa xatolar
+            request.setAttribute("exception", ex);
         }
 
         filterChain.doFilter(request, response);
