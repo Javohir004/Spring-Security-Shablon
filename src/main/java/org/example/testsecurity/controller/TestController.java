@@ -26,7 +26,7 @@ public class TestController {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Admin endpoint", description = "Faqat ADMIN roli bo'lgan foydalanuvchilar ko'ra oladi", security = @SecurityRequirement(name = "bearerAuth"))
     public String adminEndpoint() {
         return "Bu admin endpoint - faqat adminlar ko'ra oladi";
