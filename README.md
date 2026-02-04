@@ -53,7 +53,7 @@ Qo'llab-quvvatlanadigan xatolar:
 🛠️ **TEXNOLOGIYALAR**
 
 Backend:
-  • Java 17
+  • Java 21
   • Spring Boot 3.2.1
   • Spring Security 6
   • Spring Data JPA
