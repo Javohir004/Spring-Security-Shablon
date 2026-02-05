@@ -16,6 +16,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class AuthenticationService {
     /**
      * Ro'yxatdan o'tish
      */
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         // Email mavjudligini tekshirish
         if (userRepository.existsByEmail(request.getEmail())) {
