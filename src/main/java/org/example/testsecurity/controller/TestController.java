@@ -31,4 +31,5 @@ public class TestController {
     public String adminEndpoint() {
         return "Bu admin endpoint - faqat adminlar ko'ra oladi";
     }
+
 }
