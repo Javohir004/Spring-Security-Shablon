@@ -1,95 +1,108 @@
-🔐 **Spring Security + JWT Authentication Template**
+# 🔐 Spring Security + JWT Authentication Template
 
-Spring Boot loyihalarida autentifikatsiya va avtorizatsiya uchun tayyor shablon. JWT token asosida ishlaydi va professional error handling bilan ta'minlangan.
+A ready-to-use authentication and authorization template for Spring Boot projects.
+Built with JWT token-based security and professional error handling.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
 
-✨ **XUSUSIYATLAR**
+## ✨ Features
 
-✅ Spring Boot 3.2.1 + Spring Security 6
-✅ JWT Authentication (Access & Refresh Token)  
-✅ Role-based Access Control (USER, ADMIN)
-✅ Global Exception Handling
-✅ PostgreSQL + JPA
-✅ Swagger UI Integration
-✅ BCrypt Password Encryption
+- ✅ Spring Boot 3.2.1 + Spring Security 6
+- ✅ JWT Authentication (Access & Refresh Token)
+- ✅ Role-based Access Control (USER, ADMIN)
+- ✅ Global Exception Handling
+- ✅ PostgreSQL + JPA
+- ✅ Swagger UI Integration
+- ✅ BCrypt Password Encryption
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
 
-🚨 **ERROR HANDLING**
+## 🛠️ Tech Stack
 
-Barcha xatolar standart JSON formatida qaytadi:
+| Category | Technologies |
+|---|---|
+| Language | Java 21 |
+| Framework | Spring Boot 3.2.1, Spring Security 6, Spring Data JPA |
+| Security | JWT (jjwt 0.11.5), BCrypt |
+| Database | PostgreSQL |
+| Documentation | Swagger / OpenAPI 3 |
+| Build | Maven |
+| Other | Lombok |
+
+---
+
+## 📚 API Endpoints
+
+### 🔓 Public
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login and receive JWT token |
+| GET | `/api/test/public` | Public test endpoint |
+
+### 🔒 Protected
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/test/user` | Accessible by USER role |
+| GET | `/api/test/admin` | Accessible by ADMIN role only |
+
+📖 Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+---
+
+## 🚨 Error Handling
+
+All errors return a standardized JSON response:
 
 ```json
 {
   "timestamp": "2024-02-04 10:30:00",
   "status": 401,
   "error": "Unauthorized",
-  "message": "Email yoki parol noto'g'ri",
+  "message": "Invalid email or password",
   "path": "/api/auth/login"
 }
 ```
 
-Qo'llab-quvvatlanadigan xatolar:
-• 400 - Validation xatosi
-• 401 - Noto'g'ri parol / Token muddati tugagan
-• 403 - Kirish taqiqlangan
-• 404 - User topilmadi
-• 409 - Email allaqachon ro'yxatdan o'tgan
+| Status | Meaning |
+|---|---|
+| 400 | Validation error |
+| 401 | Wrong password / Token expired |
+| 403 | Access denied |
+| 404 | User not found |
+| 409 | Email already registered |
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
 
-📚 **API ENDPOINTS**
+## 🚀 Quick Start
 
-🔓 Public:
-  → POST /api/auth/register - Ro'yxatdan o'tish
-  → POST /api/auth/login - Tizimga kirish
-  → GET /api/test/public - Test endpoint
+**1. Create the database:**
+```sql
+CREATE DATABASE test;
+```
 
-🔒 Protected:
-  → GET /api/test/user - USER endpoint
-  → GET /api/test/admin - ADMIN endpoint (faqat admin)
+**2. Configure `application.properties`:**
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/test
+spring.datasource.username=your_username
+spring.datasource.password=your_password
 
-📖 Swagger UI:
-  → http://localhost:8080/swagger-ui.html
+jwt.secret=your_secret_key
+jwt.expiration=86400000
+```
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**3. Run the application:**
+```bash
+mvn spring-boot:run
+```
 
-🛠️ **TEXNOLOGIYALAR**
+**4. Open Swagger UI and start testing:**
+```
+http://localhost:8080/swagger-ui.html
+```
 
-Backend:
-  • Java 21
-  • Spring Boot 3.2.1
-  • Spring Security 6
-  • Spring Data JPA
+---
 
-Security:
-  • JWT (jjwt 0.11.5)
-  • BCrypt Password Encoder
+## 📫 Contact
 
-Database:
-  • PostgreSQL
-
-Documentation:
-  • Swagger/OpenAPI 3
-
-Build Tool:
-  • Maven
-
-Additional:
-  • Lombok
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🚀 **TEZKOR BOSHLASH**
-
-1️⃣ Database yarating:
-   CREATE DATABASE test;
-
-2️⃣ application.properties sozlang
-
-3️⃣ Ishga tushiring:
-   mvn spring-boot:run
-
-4️⃣ Swagger'ni oching va test qiling! ✨
-
+- GitHub: [Javohir004](https://github.com/Javohir004)
